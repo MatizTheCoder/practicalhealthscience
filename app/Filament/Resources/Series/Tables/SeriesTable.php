@@ -15,28 +15,40 @@ class SeriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('title')
-                    ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
-                TextColumn::make('seo_title')
-                    ->searchable(),
-                TextColumn::make('meta_description')
-                    ->searchable(),
                 TextColumn::make('sort_order')
-                    ->numeric()
+                    ->label('#')
+                    ->sortable()
+                    ->width('60px'),
+
+                TextColumn::make('title')
+                    ->label('Series')
+                    ->searchable()
                     ->sortable(),
+
+                TextColumn::make('slug')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('description')
+                    ->limit(90)
+                    ->toggleable(),
+
                 IconColumn::make('is_active')
-                    ->boolean(),
+                    ->label('Active')
+                    ->boolean()
+                    ->sortable(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('sort_order')
             ->filters([
                 //
             ])

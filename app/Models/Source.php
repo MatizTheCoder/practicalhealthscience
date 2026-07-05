@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Source extends Model
 {
@@ -27,5 +28,12 @@ class Source extends Model
         return [
             'year' => 'integer',
         ];
+    }
+
+    public function articles(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'article_source')
+            ->withPivot(['sort_order', 'citation_note'])
+            ->withTimestamps();
     }
 }

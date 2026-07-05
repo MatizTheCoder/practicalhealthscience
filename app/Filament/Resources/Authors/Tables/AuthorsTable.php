@@ -15,32 +15,36 @@ class AuthorsTable
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
+                    ->label('Author')
+                    ->searchable()
+                    ->sortable(),
+
                 TextColumn::make('title')
-                    ->searchable(),
-                TextColumn::make('avatar_path')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->limit(50),
+
                 TextColumn::make('email')
-                    ->label('Email address')
-                    ->searchable(),
-                TextColumn::make('website_url')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
+
                 IconColumn::make('is_active')
-                    ->boolean(),
+                    ->label('Active')
+                    ->boolean()
+                    ->sortable(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('name')
             ->filters([
                 //
             ])
