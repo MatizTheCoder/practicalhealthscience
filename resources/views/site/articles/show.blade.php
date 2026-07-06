@@ -1,30 +1,56 @@
 @extends('layouts.site', [
-'title' => ($article->seo_title ?: $article->title) . ' | Practical Health Science',
-'description' => $article->meta_description ?: $article->excerpt ?: 'Evidence-based health science, made practical.',
+    'title' => ($article->seo_title ?: $article->title) . ' | Practical Health Science',
+    'description' => $article->meta_description ?: $article->excerpt ?: 'Evidence-based health science, made practical.',
+    'canonical' => $article->canonical_url ?: route('articles.show', $article),
+    'ogTitle' => $article->og_title ?: $article->seo_title ?: $article->title,
+    'ogDescription' => $article->og_description ?: $article->meta_description ?: $article->excerpt ?: 'Evidence-based health science, made practical.',
+    'ogImage' => $article->og_image_path
+        ? asset('storage/' . $article->og_image_path)
+        : ($article->featured_image_path ? asset('storage/' . $article->featured_image_path) : asset('images/og-default.jpg')),
+    'ogType' => 'article',
+    'robots' => $article->noindex ? 'noindex, follow' : 'index, follow',
 ])
+
+@push('structured-data')
+    <script type="application/ld+json">
+        {!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'Article',
+            'headline' => $article->title,
+            'description' => $article->meta_description ?: $article->excerpt,
+            'datePublished' => optional($article->published_at)->toIso8601String(),
+            'dateModified' => optional($article->updated_at)->toIso8601String(),
+            'author' => [
+                '@type' => 'Person',
+                'name' => optional($article->author)->name ?: 'Practical Health Science Editorial Team',
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'Practical Health Science',
+                'url' => url('/'),
+            ],
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => route('articles.show', $article),
+            ],
+            'image' => $article->featured_image_path
+                ? asset('storage/' . $article->featured_image_path)
+                : asset('images/og-default.jpg'),
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+    </script>
+@endpush
+
 
 @section('content')
 <article class="bg-white">
     <header class="border-b border-slate-200 bg-gradient-to-b from-[#F7FBFA] to-white">
         <div class="mx-auto max-w-4xl px-6 py-14">
             <div class="flex flex-wrap gap-2">
-                @if ($article->category)
-                <span class="rounded-full bg-[#EAF7F3] px-3 py-1 text-xs font-semibold text-[#2F7F7A] ring-1 ring-[#D3EDE7]">
-                    {{ $article->category->name }}
-                </span>
-                @endif
+                <x-site.category-badge :category="$article->category" />
 
-                @if ($article->content_format)
-                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                    {{ str($article->content_format)->replace('_', ' ')->title() }}
-                </span>
-                @endif
+                <x-site.format-badge :format="$article->content_format" />
 
-                @if ($article->evidence_strength)
-                <span class="rounded-full bg-[#1E2A5A] px-3 py-1 text-xs font-semibold text-white">
-                    Evidence: {{ str($article->evidence_strength)->replace('_', ' ')->title() }}
-                </span>
-                @endif
+                <x-site.evidence-badge :evidence="$article->evidence_strength" />
             </div>
 
             <h1 class="mt-6 text-4xl font-extrabold tracking-tight text-[#102033] md:text-5xl">
@@ -81,7 +107,7 @@
 
             @if ($article->body)
             <section class="mt-10">
-                <div class="space-y-6 text-lg leading-8 text-slate-700">
+                <div class="article-content">
                     {!! $article->body !!}
                 </div>
             </section>
@@ -165,11 +191,7 @@
                             </span>
                             @endif
 
-                            @if ($source->evidence_level)
-                            <span class="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">
-                                Evidence: {{ str($source->evidence_level)->replace('_', ' ')->title() }}
-                            </span>
-                            @endif
+                            <x-site.evidence-badge :evidence="$source->evidence_level" />
 
                             @if ($source->doi)
                             <span class="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">

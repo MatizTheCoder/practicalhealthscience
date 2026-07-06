@@ -9,6 +9,21 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
+    public function index(): View
+    {
+        $categories = Category::query()
+            ->where('is_active', true)
+            ->withCount([
+                'articles' => fn ($query) => $query->published(),
+            ])
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('site.categories.index', [
+            'categories' => $categories,
+        ]);
+    }
+
     public function show(Category $category): View
     {
         abort_unless($category->is_active, 404);

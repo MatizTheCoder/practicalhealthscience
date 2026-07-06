@@ -24,7 +24,7 @@
                     Read latest articles
                 </a>
 
-                <a href="#categories" class="inline-flex items-center justify-center rounded-full border border-[#D3EDE7] bg-white px-6 py-3 text-sm font-semibold text-[#1E2A5A] hover:border-[#3A8F8A]">
+                <a href="{{ route('categories.index') }}" class="inline-flex items-center justify-center rounded-full border border-[#D3EDE7] bg-white px-6 py-3 text-sm font-semibold text-[#1E2A5A] hover:border-[#3A8F8A]">
                     Browse categories
                 </a>
             </div>
@@ -143,41 +143,7 @@
 
     <div class="mt-8 grid gap-6 md:grid-cols-3">
         @forelse ($latestArticles as $article)
-        <article class="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-            <div class="flex flex-wrap gap-2">
-                @if ($article->category)
-                <span class="rounded-full bg-[#EAF7F3] px-3 py-1 text-xs font-semibold text-[#2F7F7A]">
-                    {{ $article->category->name }}
-                </span>
-                @endif
-
-                @if ($article->content_format)
-                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                    {{ str($article->content_format)->replace('_', ' ')->title() }}
-                </span>
-                @endif
-            </div>
-
-            <h3 class="mt-4 text-xl font-bold leading-tight text-[#102033]">
-                <a href="{{ route('articles.show', $article) }}" class="hover:text-[#3A8F8A]">
-                    {{ $article->title }}
-                </a>
-            </h3>
-
-            @if ($article->excerpt)
-            <p class="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
-                {{ $article->excerpt }}
-            </p>
-            @endif
-
-            <div class="mt-5 text-xs font-medium text-slate-500">
-                {{ $article->reading_time ?? 1 }} min read
-
-                @if ($article->published_at)
-                · {{ $article->published_at->format('M j, Y') }}
-                @endif
-            </div>
-        </article>
+        <x-site.article-card :article="$article" />
         @empty
         @unless ($featuredArticle)
         <div class="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-slate-600 md:col-span-3">
