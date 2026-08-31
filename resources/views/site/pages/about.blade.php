@@ -33,6 +33,7 @@
             </p>
 
             <h2>Our editorial focus</h2>
+            
 
             <p>
                 Every major Practical Health Science article is designed to help readers answer four questions:
@@ -44,6 +45,19 @@
                 <li>What are the limitations?</li>
                 <li>What should a reasonable reader take away?</li>
             </ul>
+            <div class="not-prose mt-10 rounded-[1.5rem] border border-[#D3EDE7] bg-[#EAF7F3] p-6">
+                <h2 class="text-2xl font-bold tracking-tight text-[#102033]">
+                    Meet the Editorial Team
+                </h2>
+
+                <p class="mt-3 text-base leading-7 text-slate-700">
+                    Learn more about the people, scientific background, and editorial principles behind Practical Health Science.
+                </p>
+
+                <a href="{{ route('pages.editorial-team') }}" class="mt-5 inline-flex text-sm font-semibold text-[#3A8F8A] hover:text-[#102033]">
+                    View editorial team →
+                </a>
+            </div>
 
             <h2>What makes us different</h2>
 

@@ -17,6 +17,11 @@ class PageController extends Controller
         return view('site.pages.editorial-policy');
     }
 
+    public function editorialTeam(): View
+    {
+        return view('site.pages.editorial-team');
+    }
+
     public function medicalDisclaimer(): View
     {
         return view('site.pages.medical-disclaimer');
@@ -25,5 +30,14 @@ class PageController extends Controller
     public function contact(): View
     {
         return view('site.pages.contact');
+    }
+    public function privacyPolicy(): View
+    {
+        return view('site.pages.privacy-policy');
+    }
+
+    public function termsOfUse(): View
+    {
+        return view('site.pages.terms-of-use');
     }
 }

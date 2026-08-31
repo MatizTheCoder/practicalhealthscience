@@ -172,29 +172,33 @@ class ArticleForm
                             ]),
 
                         Tab::make('Images')
-                            ->schema([
-                                Section::make('Images')
-                                    ->schema([
-                                        FileUpload::make('featured_image_path')
-                                            ->label('Featured Image')
-                                            ->image()
-                                            ->directory('articles/featured-images')
-                                            ->imageEditor()
-                                            ->columnSpanFull(),
+    ->schema([
+        Section::make('Images')
+            ->schema([
+                FileUpload::make('featured_image_path')
+                    ->label('Featured Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('articles/featured-images')
+                    ->visibility('public')
+                    ->imageEditor()
+                    ->columnSpanFull(),
 
-                                        TextInput::make('featured_image_alt')
-                                            ->label('Featured Image Alt Text')
-                                            ->maxLength(255)
-                                            ->helperText('Describe the image clearly for accessibility and SEO.'),
+                TextInput::make('featured_image_alt')
+                    ->label('Featured Image Alt Text')
+                    ->maxLength(255)
+                    ->helperText('Describe the image clearly for accessibility and SEO.'),
 
-                                        FileUpload::make('og_image_path')
-                                            ->label('Open Graph Image')
-                                            ->image()
-                                            ->directory('articles/og-images')
-                                            ->imageEditor(),
-                                    ])
-                                    ->columns(2),
-                            ]),
+                FileUpload::make('og_image_path')
+                    ->label('Open Graph Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('articles/og-images')
+                    ->visibility('public')
+                    ->imageEditor(),
+            ])
+            ->columns(2),
+    ]),
 
                         Tab::make('SEO')
                             ->schema([

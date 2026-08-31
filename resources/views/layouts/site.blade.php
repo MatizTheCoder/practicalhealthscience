@@ -53,8 +53,8 @@
 
                 <nav class="hidden items-center gap-6 text-sm font-semibold text-slate-700 md:flex">
                     <a
-                        href="{{ route('home') }}#latest"
-                        class="{{ request()->routeIs('home') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
+                        href="{{ route('latest.index') }}"
+                        class="{{ request()->routeIs('latest.*') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
                     >
                         Latest
                     </a>
@@ -105,8 +105,8 @@
 
             <div class="mx-auto flex max-w-7xl gap-5 overflow-x-auto px-6 pb-3 text-sm font-semibold text-slate-700 md:hidden">
                 <a
-                    href="{{ route('home') }}#latest"
-                    class="shrink-0 {{ request()->routeIs('home') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
+                    href="{{ route('latest.index') }}"
+                    class="shrink-0 {{ request()->routeIs('latest.*') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
                 >
                     Latest
                 </a>
@@ -172,7 +172,7 @@
 
                         <ul class="mt-4 space-y-2 text-sm text-slate-600">
                             <li>
-                                <a href="{{ route('home') }}#latest" class="hover:text-[#3A8F8A]">
+                                <a href="{{ route('latest.index') }}" class="hover:text-[#3A8F8A]">
                                     Latest articles
                                 </a>
                             </li>
@@ -222,9 +222,24 @@
                                     Editorial Policy
                                 </a>
                             </li>
+                             <li>
+                                <a href="{{ route('pages.editorial-team') }}" class="hover:text-[#3A8F8A]">
+                                    Editorial Team
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('pages.medical-disclaimer') }}" class="hover:text-[#3A8F8A]">
                                     Medical Disclaimer
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('pages.privacy-policy') }}" class="hover:text-[#3A8F8A]">
+                                    Privacy Policy
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('pages.terms-of-use') }}" class="hover:text-[#3A8F8A]">
+                                    Terms of Use
                                 </a>
                             </li>
                             <li>

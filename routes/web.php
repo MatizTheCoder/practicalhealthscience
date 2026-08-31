@@ -8,6 +8,7 @@ use App\Http\Controllers\Site\TagController;
 use App\Http\Controllers\Site\SearchController;
 use App\Http\Controllers\Site\PageController;
 use App\Http\Controllers\Site\SitemapController;
+use App\Http\Controllers\Site\LatestController;
 
 
 
@@ -44,11 +45,23 @@ Route::get('/search', SearchController::class)
 Route::get('/about', [PageController::class, 'about'])
     ->name('pages.about');
 
+Route::get('/latest', LatestController::class)
+    ->name('latest.index');
+
 Route::get('/editorial-policy', [PageController::class, 'editorialPolicy'])
     ->name('pages.editorial-policy');
+    
+Route::get('/editorial-team', [PageController::class, 'editorialTeam'])
+    ->name('pages.editorial-team');
 
 Route::get('/medical-disclaimer', [PageController::class, 'medicalDisclaimer'])
     ->name('pages.medical-disclaimer');
+
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])
+    ->name('pages.privacy-policy');
+
+Route::get('/terms-of-use', [PageController::class, 'termsOfUse'])
+    ->name('pages.terms-of-use');
 
 Route::get('/contact', [PageController::class, 'contact'])
     ->name('pages.contact');

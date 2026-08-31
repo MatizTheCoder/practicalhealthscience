@@ -46,7 +46,7 @@
                 </p>
 
                 <p class="mt-5 text-sm font-semibold text-[#3A8F8A]">
-                    hello@practicalhealthscience.com
+                    info@practicalhealthscience.com
                 </p>
             </div>
         </div>

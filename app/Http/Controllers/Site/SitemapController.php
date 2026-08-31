@@ -20,6 +20,12 @@ class SitemapController extends Controller
                 'priority' => '1.0',
             ],
             [
+                'loc' => route('latest.index'),
+                'lastmod' => now(),
+                'changefreq' => 'daily',
+                'priority' => '0.8',
+            ],
+            [
                 'loc' => route('categories.index'),
                 'lastmod' => now(),
                 'changefreq' => 'weekly',
@@ -44,6 +50,12 @@ class SitemapController extends Controller
                 'priority' => '0.6',
             ],
             [
+                'loc' => route('pages.editorial-team'),
+                'lastmod' => now(),
+                'changefreq' => 'monthly',
+                'priority' => '0.6',
+            ],
+            [
                 'loc' => route('pages.editorial-policy'),
                 'lastmod' => now(),
                 'changefreq' => 'monthly',
@@ -54,6 +66,18 @@ class SitemapController extends Controller
                 'lastmod' => now(),
                 'changefreq' => 'monthly',
                 'priority' => '0.5',
+            ],
+            [
+                'loc' => route('pages.privacy-policy'),
+                'lastmod' => now(),
+                'changefreq' => 'yearly',
+                'priority' => '0.3',
+            ],
+            [
+                'loc' => route('pages.terms-of-use'),
+                'lastmod' => now(),
+                'changefreq' => 'yearly',
+                'priority' => '0.3',
             ],
             [
                 'loc' => route('pages.contact'),
