@@ -26,6 +26,12 @@ Route::get('/categories', [CategoryController::class, 'index'])
 Route::get('/categories/{category:slug}', [CategoryController::class, 'show'])
     ->name('categories.show');
 
+Route::get('/topics', [TagController::class, 'index'])
+    ->name('tags.index');
+
+Route::get('/tags/{tag:slug}', [TagController::class, 'show'])
+    ->name('tags.show');
+
 Route::get('/tags/{tag:slug}', [TagController::class, 'show'])
     ->name('tags.show');
 

@@ -9,6 +9,21 @@ use Illuminate\View\View;
 
 class TagController extends Controller
 {
+    public function index(): View
+    {
+        $tags = Tag::query()
+            ->withCount([
+                'articles' => fn ($query) => $query->published(),
+            ])
+            ->whereHas('articles', fn ($query) => $query->published())
+            ->orderBy('name')
+            ->get();
+
+        return view('site.tags.index', [
+            'tags' => $tags,
+        ]);
+    }
+
     public function show(Tag $tag): View
     {
         $articles = Article::query()

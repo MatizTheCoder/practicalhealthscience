@@ -91,17 +91,20 @@ class ArticleForm
                                     ->schema([
                                         Textarea::make('quick_answer')
                                             ->label('Quick Answer')
+                                            ->helperText('A short, direct answer for readers who want the practical bottom line first.')
                                             ->rows(3)
                                             ->helperText('A concise answer to the reader’s likely question.')
                                             ->columnSpanFull(),
 
                                         Textarea::make('what_the_science_says')
                                             ->label('What the Science Says')
+                                            ->helperText('Summarize the main scientific evidence without overstating certainty.')
                                             ->rows(4)
                                             ->columnSpanFull(),
 
                                         Select::make('evidence_strength')
                                             ->label('Evidence Strength')
+                                            ->helperText('Choose how strong the overall evidence is, not how interesting the claim sounds.')
                                             ->options([
                                                 'high' => 'High',
                                                 'moderate' => 'Moderate',
@@ -115,16 +118,19 @@ class ArticleForm
 
                                         Textarea::make('limitations_summary')
                                             ->label('Important Limitations')
+                                            ->helperText('State major limitations, uncertainty, sample size issues, conflicting evidence, or gaps.')
                                             ->rows(4)
                                             ->columnSpanFull(),
 
                                         Textarea::make('real_life_meaning')
                                             ->label('What This Means in Real Life')
+                                            ->helperText('Translate the evidence into cautious, practical meaning for a reasonable reader.')
                                             ->rows(4)
                                             ->columnSpanFull(),
 
                                         Textarea::make('key_takeaway')
                                             ->label('Key Takeaway')
+                                            ->helperText('One concise final takeaway. Avoid medical advice, cure claims, or exaggerated certainty.')
                                             ->rows(3)
                                             ->columnSpanFull(),
                                     ])
@@ -222,6 +228,7 @@ class ArticleForm
 
                                         Toggle::make('noindex')
                                             ->label('Noindex')
+                                            ->helperText('Use for pages that should remain public but should not appear in search engine results.')
                                             ->default(false),
                                     ])
                                     ->columns(2),
@@ -268,18 +275,22 @@ class ArticleForm
                                     ->schema([
                                         Toggle::make('has_medical_disclaimer')
                                             ->label('Medical disclaimer included')
+                                            ->helperText('Confirm that the article contains educational-only language and does not replace professional medical advice.')
                                             ->default(true),
 
                                         Toggle::make('claims_checked')
                                             ->label('Health claims checked')
+                                            ->helperText('Confirm that major claims are supported, cautious, and not stronger than the evidence allows.')
                                             ->default(false),
 
                                         Toggle::make('sources_checked')
                                             ->label('Sources checked')
+                                            ->helperText('Confirm that sources are relevant, credible, and connected to the claims in the article.')
                                             ->default(false),
 
                                         Toggle::make('limitations_stated')
                                             ->label('Limitations clearly stated')
+                                            ->helperText('Confirm that uncertainty, limitations, or evidence gaps are clearly stated.')
                                             ->default(false),
                                     ])
                                     ->columns(2),

@@ -166,6 +166,73 @@ class Article extends Model
             }
         });
     }
+    public function getPublishReadinessAttribute(): string
+    {
+        if (! $this->has_medical_disclaimer) {
+            return 'No disclaimer';
+        }
+
+        if (! $this->sources_checked) {
+            return 'Missing sources';
+        }
+
+        if (! $this->claims_checked) {
+            return 'Claims not checked';
+        }
+
+        if (! $this->limitations_stated) {
+            return 'Missing limitations';
+        }
+
+        if (! $this->body) {
+            return 'Missing body';
+        }
+
+        if (! $this->excerpt) {
+            return 'Missing excerpt';
+        }
+
+        if (! $this->quick_answer) {
+            return 'Missing quick answer';
+        }
+
+        if (! $this->what_the_science_says) {
+            return 'Missing science summary';
+        }
+
+        if (! $this->limitations_summary) {
+            return 'Missing limitations text';
+        }
+
+        if (! $this->real_life_meaning) {
+            return 'Missing real-life meaning';
+        }
+
+        if (! $this->key_takeaway) {
+            return 'Missing takeaway';
+        }
+
+        return 'Ready';
+    }
+
+    public function getPublishReadinessColorAttribute(): string
+    {
+        return match ($this->publish_readiness) {
+            'Ready' => 'success',
+            'No disclaimer',
+            'Missing sources',
+            'Claims not checked',
+            'Missing limitations',
+            'Missing body',
+            'Missing excerpt',
+            'Missing quick answer',
+            'Missing science summary',
+            'Missing limitations text',
+            'Missing real-life meaning',
+            'Missing takeaway' => 'warning',
+            default => 'gray',
+        };
+    }
 
     public function calculateReadingTime(): int
     {

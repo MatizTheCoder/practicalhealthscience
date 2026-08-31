@@ -34,9 +34,32 @@ class ArticleController extends Controller
             ))
             ->take(3);
 
+        $moreFromCategory = collect();
+
+        if ($article->category) {
+            $moreFromCategory = Article::query()
+                ->published()
+                ->whereBelongsTo($article->category)
+                ->whereKeyNot($article->id)
+                ->with(['category', 'author', 'tags'])
+                ->latest('published_at')
+                ->take(3)
+                ->get();
+        }
+
+        $latestArticles = Article::query()
+            ->published()
+            ->whereKeyNot($article->id)
+            ->with(['category', 'author', 'tags'])
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
         return view('site.articles.show', [
             'article' => $article,
             'relatedArticles' => $relatedArticles,
+            'moreFromCategory' => $moreFromCategory,
+            'latestArticles' => $latestArticles,
         ]);
     }
 }

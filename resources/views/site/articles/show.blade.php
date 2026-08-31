@@ -285,5 +285,78 @@
             </div>
         </aside>
     </div>
+            <section class="border-t border-slate-200 bg-[#F7FBFA]">
+            <div class="mx-auto max-w-7xl px-6 py-14">
+                @if ($relatedArticles->isNotEmpty())
+                    <div>
+                        <div class="flex items-end justify-between gap-6">
+                            <div>
+                                <h2 class="text-2xl font-bold tracking-tight text-[#102033]">
+                                    Related reading
+                                </h2>
+
+                                <p class="mt-2 text-sm text-slate-600">
+                                    Continue with articles connected to this topic.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 grid gap-6 md:grid-cols-3">
+                            @foreach ($relatedArticles as $related)
+                                <x-site.article-card :article="$related" />
+                            @endforeach
+                        </div>
+                    </div>
+                @elseif ($moreFromCategory->isNotEmpty())
+                    <div>
+                        <div class="flex items-end justify-between gap-6">
+                            <div>
+                                <h2 class="text-2xl font-bold tracking-tight text-[#102033]">
+                                    More from {{ $article->category->name }}
+                                </h2>
+
+                                <p class="mt-2 text-sm text-slate-600">
+                                    Explore more Practical Health Science articles from this category.
+                                </p>
+                            </div>
+
+                            <a href="{{ route('categories.show', $article->category) }}" class="hidden text-sm font-semibold text-[#3A8F8A] hover:text-[#102033] md:inline">
+                                View category →
+                            </a>
+                        </div>
+
+                        <div class="mt-8 grid gap-6 md:grid-cols-3">
+                            @foreach ($moreFromCategory as $categoryArticle)
+                                <x-site.article-card :article="$categoryArticle" />
+                            @endforeach
+                        </div>
+                    </div>
+                @elseif ($latestArticles->isNotEmpty())
+                    <div>
+                        <div class="flex items-end justify-between gap-6">
+                            <div>
+                                <h2 class="text-2xl font-bold tracking-tight text-[#102033]">
+                                    Latest articles
+                                </h2>
+
+                                <p class="mt-2 text-sm text-slate-600">
+                                    Recent evidence-based explainers from Practical Health Science.
+                                </p>
+                            </div>
+
+                            <a href="{{ route('home') }}#latest" class="hidden text-sm font-semibold text-[#3A8F8A] hover:text-[#102033] md:inline">
+                                View latest →
+                            </a>
+                        </div>
+
+                        <div class="mt-8 grid gap-6 md:grid-cols-3">
+                            @foreach ($latestArticles as $latest)
+                                <x-site.article-card :article="$latest" />
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </section>
 </article>
 @endsection

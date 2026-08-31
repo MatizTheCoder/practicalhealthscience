@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\Articles\Tables;
 
+use App\Models\Article;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -21,64 +22,55 @@ class ArticlesTable
             ->columns([
                 TextColumn::make('title')
                     ->label('Article')
+                    ->description(fn (Article $record): ?string => $record->subtitle ?: $record->excerpt)
                     ->searchable()
                     ->sortable()
-                    ->limit(60)
-                    ->description(fn ($record): ?string => $record->subtitle),
+                    ->limit(55)
+                    ->wrap(),
+
+                TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        Article::STATUS_PUBLISHED => 'success',
+                        Article::STATUS_REVIEW => 'warning',
+                        Article::STATUS_SCHEDULED => 'info',
+                        Article::STATUS_ARCHIVED => 'gray',
+                        default => 'gray',
+                    })
+                    ->sortable(),
+
+                TextColumn::make('publish_readiness')
+                    ->label('Readiness')
+                    ->badge()
+                    ->color(fn (Article $record): string => $record->publish_readiness_color)
+                    ->sortable(false),
 
                 TextColumn::make('category.name')
                     ->label('Category')
                     ->badge()
-                    ->searchable()
+                    ->color('gray')
                     ->sortable()
-                    ->toggleable(),
-
-                TextColumn::make('author.name')
-                    ->label('Author')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
+                    ->searchable(),
 
                 TextColumn::make('content_format')
                     ->label('Format')
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
-                        'explainer' => 'Explainer',
-                        'myth_check' => 'Myth Check',
-                        'research_breakdown' => 'Research Breakdown',
-                        'practical_takeaway' => 'Practical Takeaway',
-                        'emerging_therapy_explained' => 'Emerging Therapy',
-                        'evidence_brief' => 'Evidence Brief',
-                        default => 'Not specified',
+                        Article::FORMAT_EXPLAINER => 'Explainer',
+                        Article::FORMAT_MYTH_CHECK => 'Myth Check',
+                        Article::FORMAT_RESEARCH_BREAKDOWN => 'Research Breakdown',
+                        Article::FORMAT_PRACTICAL_TAKEAWAY => 'Practical Takeaway',
+                        Article::FORMAT_EMERGING_THERAPY_EXPLAINED => 'Emerging Therapy',
+                        Article::FORMAT_EVIDENCE_BRIEF => 'Evidence Brief',
+                        default => $state ? str($state)->headline()->toString() : '—',
                     })
                     ->color(fn (?string $state): string => match ($state) {
-                        'explainer' => 'info',
-                        'myth_check' => 'warning',
-                        'research_breakdown' => 'success',
-                        'practical_takeaway' => 'gray',
-                        'emerging_therapy_explained' => 'danger',
-                        'evidence_brief' => 'info',
-                        default => 'gray',
-                    })
-                    ->sortable(),
-
-                TextColumn::make('status')
-                    ->label('Status')
-                    ->badge()
-                    ->formatStateUsing(fn (?string $state): string => match ($state) {
-                        'draft' => 'Draft',
-                        'review' => 'Review',
-                        'scheduled' => 'Scheduled',
-                        'published' => 'Published',
-                        'archived' => 'Archived',
-                        default => 'Unknown',
-                    })
-                    ->color(fn (?string $state): string => match ($state) {
-                        'draft' => 'gray',
-                        'review' => 'warning',
-                        'scheduled' => 'info',
-                        'published' => 'success',
-                        'archived' => 'danger',
+                        Article::FORMAT_EXPLAINER => 'info',
+                        Article::FORMAT_MYTH_CHECK => 'warning',
+                        Article::FORMAT_RESEARCH_BREAKDOWN => 'success',
+                        Article::FORMAT_PRACTICAL_TAKEAWAY => 'gray',
+                        Article::FORMAT_EMERGING_THERAPY_EXPLAINED => 'danger',
+                        Article::FORMAT_EVIDENCE_BRIEF => 'primary',
                         default => 'gray',
                     })
                     ->sortable(),
@@ -86,94 +78,133 @@ class ArticlesTable
                 TextColumn::make('evidence_strength')
                     ->label('Evidence')
                     ->badge()
-                    ->formatStateUsing(fn (?string $state): string => match ($state) {
-                        'high' => 'High',
-                        'moderate' => 'Moderate',
-                        'limited' => 'Limited',
-                        'early' => 'Early',
-                        'very_early' => 'Very early',
-                        'mixed' => 'Mixed',
-                        'unclear' => 'Unclear',
-                        default => 'Not specified',
-                    })
+                    ->formatStateUsing(fn (?string $state): string => $state ? str($state)->headline()->toString() : '—')
                     ->color(fn (?string $state): string => match ($state) {
                         'high' => 'success',
                         'moderate' => 'info',
                         'limited' => 'warning',
-                        'early' => 'warning',
+                        'early',
                         'very_early' => 'danger',
-                        'mixed' => 'gray',
-                        'unclear' => 'gray',
                         default => 'gray',
                     })
-                    ->sortable()
-                    ->toggleable(),
+                    ->sortable(),
 
                 IconColumn::make('is_featured')
                     ->label('Featured')
                     ->boolean()
-                    ->sortable()
-                    ->toggleable(),
+                    ->sortable(),
 
-                IconColumn::make('sources_checked')
-                    ->label('Sources')
-                    ->boolean()
-                    ->sortable()
-                    ->toggleable(),
+                // IconColumn::make('sources_checked')
+                //     ->label('Sources')
+                //     ->boolean()
+                //     ->toggleable(isToggledHiddenByDefault: true),
 
-                IconColumn::make('limitations_stated')
-                    ->label('Limits')
-                    ->boolean()
-                    ->sortable()
-                    ->toggleable(),
+                // IconColumn::make('limitations_stated')
+                //     ->label('Limits')
+                //     ->boolean()
+                //     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('reading_time')
                     ->label('Read')
                     ->suffix(' min')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('published_at')
                     ->label('Published')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(),
+                    ->dateTime('M j, Y')
+                    ->sortable(),
 
                 TextColumn::make('updated_at')
                     ->label('Updated')
-                    ->dateTime()
+                    ->dateTime('M j, Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('status')
                     ->options([
-                        'draft' => 'Draft',
-                        'review' => 'Review',
-                        'scheduled' => 'Scheduled',
-                        'published' => 'Published',
-                        'archived' => 'Archived',
+                        Article::STATUS_DRAFT => 'Draft',
+                        Article::STATUS_REVIEW => 'Review',
+                        Article::STATUS_SCHEDULED => 'Scheduled',
+                        Article::STATUS_PUBLISHED => 'Published',
+                        Article::STATUS_ARCHIVED => 'Archived',
                     ]),
+
+                SelectFilter::make('readiness')
+                    ->label('Readiness')
+                    ->options([
+                        'ready' => 'Ready',
+                        'needs_review' => 'Needs review',
+                    ])
+                    ->query(function ($query, array $data) {
+                        if (($data['value'] ?? null) === 'ready') {
+                            return $query
+                                ->where('has_medical_disclaimer', true)
+                                ->where('sources_checked', true)
+                                ->where('claims_checked', true)
+                                ->where('limitations_stated', true)
+                                ->whereNotNull('body')
+                                ->where('body', '!=', '')
+                                ->whereNotNull('excerpt')
+                                ->where('excerpt', '!=', '')
+                                ->whereNotNull('quick_answer')
+                                ->where('quick_answer', '!=', '')
+                                ->whereNotNull('what_the_science_says')
+                                ->where('what_the_science_says', '!=', '')
+                                ->whereNotNull('limitations_summary')
+                                ->where('limitations_summary', '!=', '')
+                                ->whereNotNull('real_life_meaning')
+                                ->where('real_life_meaning', '!=', '')
+                                ->whereNotNull('key_takeaway')
+                                ->where('key_takeaway', '!=', '');
+                        }
+
+                        if (($data['value'] ?? null) === 'needs_review') {
+                            return $query
+                                ->where(function ($query) {
+                                    $query
+                                        ->where('has_medical_disclaimer', false)
+                                        ->orWhere('sources_checked', false)
+                                        ->orWhere('claims_checked', false)
+                                        ->orWhere('limitations_stated', false)
+                                        ->orWhereNull('body')
+                                        ->orWhere('body', '')
+                                        ->orWhereNull('excerpt')
+                                        ->orWhere('excerpt', '')
+                                        ->orWhereNull('quick_answer')
+                                        ->orWhere('quick_answer', '')
+                                        ->orWhereNull('what_the_science_says')
+                                        ->orWhere('what_the_science_says', '')
+                                        ->orWhereNull('limitations_summary')
+                                        ->orWhere('limitations_summary', '')
+                                        ->orWhereNull('real_life_meaning')
+                                        ->orWhere('real_life_meaning', '')
+                                        ->orWhereNull('key_takeaway')
+                                        ->orWhere('key_takeaway', '');
+                                });
+                        }
+
+                        return $query;
+                    }),
 
                 SelectFilter::make('content_format')
                     ->label('Format')
                     ->options([
-                        'explainer' => 'Explainer',
-                        'myth_check' => 'Myth Check',
-                        'research_breakdown' => 'Research Breakdown',
-                        'practical_takeaway' => 'Practical Takeaway',
-                        'emerging_therapy_explained' => 'Emerging Therapy Explained',
-                        'evidence_brief' => 'Evidence Brief',
+                        Article::FORMAT_EXPLAINER => 'Explainer',
+                        Article::FORMAT_MYTH_CHECK => 'Myth Check',
+                        Article::FORMAT_RESEARCH_BREAKDOWN => 'Research Breakdown',
+                        Article::FORMAT_PRACTICAL_TAKEAWAY => 'Practical Takeaway',
+                        Article::FORMAT_EMERGING_THERAPY_EXPLAINED => 'Emerging Therapy Explained',
+                        Article::FORMAT_EVIDENCE_BRIEF => 'Evidence Brief',
                     ]),
 
-                SelectFilter::make('category_id')
-                    ->label('Category')
+                SelectFilter::make('category')
                     ->relationship('category', 'name')
                     ->searchable()
                     ->preload(),
 
-                SelectFilter::make('author_id')
-                    ->label('Author')
+                SelectFilter::make('author')
                     ->relationship('author', 'name')
                     ->searchable()
                     ->preload(),
@@ -184,10 +215,11 @@ class ArticlesTable
                         'high' => 'High',
                         'moderate' => 'Moderate',
                         'limited' => 'Limited',
-                        'early' => 'Early / preliminary',
-                        'very_early' => 'Very early / preclinical',
+                        'early' => 'Early',
+                        'very_early' => 'Very Early',
                         'mixed' => 'Mixed',
                         'unclear' => 'Unclear',
+                        'not_applicable' => 'Not Applicable',
                     ]),
 
                 TernaryFilter::make('is_featured')
@@ -199,7 +231,6 @@ class ArticlesTable
                 TernaryFilter::make('limitations_stated')
                     ->label('Limitations stated'),
             ])
-            ->defaultSort('updated_at', 'desc')
             ->recordActions([
                 EditAction::make(),
             ])
@@ -209,6 +240,7 @@ class ArticlesTable
                     RestoreBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('updated_at', 'desc');
     }
 }
