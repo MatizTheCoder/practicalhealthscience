@@ -80,9 +80,9 @@
                         Search
                     </a>
 
-                    <a
-                        href="{{ route('home') }}#newsletter"
-                        class="hover:text-[#3A8F8A]"
+                   <a
+                        href="{{ route('pages.newsletter') }}"
+                        class="{{ request()->routeIs('pages.newsletter') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
                     >
                         Newsletter
                     </a>
@@ -133,8 +133,8 @@
                 </a>
 
                 <a
-                    href="{{ route('home') }}#newsletter"
-                    class="shrink-0 hover:text-[#3A8F8A]"
+                    href="{{ route('pages.newsletter') }}"
+                    class="shrink-0 {{ request()->routeIs('pages.newsletter') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
                 >
                     Newsletter
                 </a>
@@ -189,6 +189,11 @@
                             <li>
                                 <a href="{{ route('search') }}" class="hover:text-[#3A8F8A]">
                                     Search
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('pages.newsletter') }}" class="hover:text-[#3A8F8A]">
+                                    Newsletter
                                 </a>
                             </li>
                         </ul>

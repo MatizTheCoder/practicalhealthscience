@@ -80,6 +80,12 @@ class SitemapController extends Controller
                 'priority' => '0.3',
             ],
             [
+                'loc' => route('pages.newsletter'),
+                'lastmod' => now(),
+                'changefreq' => 'monthly',
+                'priority' => '0.5',
+            ],
+            [
                 'loc' => route('pages.contact'),
                 'lastmod' => now(),
                 'changefreq' => 'monthly',

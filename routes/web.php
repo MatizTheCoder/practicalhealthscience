@@ -63,5 +63,8 @@ Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])
 Route::get('/terms-of-use', [PageController::class, 'termsOfUse'])
     ->name('pages.terms-of-use');
 
+Route::get('/newsletter', [PageController::class, 'newsletter'])
+    ->name('pages.newsletter');
+
 Route::get('/contact', [PageController::class, 'contact'])
     ->name('pages.contact');

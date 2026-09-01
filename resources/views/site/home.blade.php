@@ -66,7 +66,7 @@
     <div class="flex items-end justify-between gap-6">
         <div>
             <h2 class="text-3xl font-bold tracking-tight text-[#102033]">
-                Latest evidence-based explainers
+                Latest evidence based explainers
             </h2>
 
             <p class="mt-3 max-w-2xl text-slate-600">
@@ -182,16 +182,29 @@
     </div>
 </section>
 
-<section id="newsletter" class="mx-auto max-w-7xl px-6 py-16">
-    <div class="rounded-[2rem] bg-[#102033] p-8 text-white md:p-12">
-        <div class="max-w-2xl">
-            <h2 class="text-3xl font-bold tracking-tight">
-                Understand health science without the hype.
-            </h2>
+<section id="newsletter" class="border-t border-slate-200 bg-white">
+    <div class="mx-auto max-w-7xl px-6 py-14">
+        <div class="rounded-[2rem] bg-[#102033] p-8 text-white md:p-10">
+            <div class="max-w-3xl">
+                <div class="text-sm font-bold uppercase tracking-wide text-[#A7DCD3]">
+                    Newsletter
+                </div>
 
-            <p class="mt-4 leading-7 text-slate-200">
-                Newsletter infrastructure will be added later. For now, this section reserves the growth layer of the site.
-            </p>
+                <h2 class="mt-4 text-3xl font-extrabold tracking-tight md:text-4xl">
+                    Evidence based health science updates, without the hype.
+                </h2>
+
+                <p class="mt-4 text-lg leading-8 text-slate-200">
+                    A Practical Health Science newsletter is planned for readers who want clear summaries of new articles, health claims, and research findings.
+                </p>
+
+                <a
+                    href="{{ route('pages.newsletter') }}"
+                    class="mt-6 inline-flex rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#102033] transition hover:bg-[#EAF7F3]"
+                >
+                    Learn about the newsletter →
+                </a>
+            </div>
         </div>
     </div>
 </section>

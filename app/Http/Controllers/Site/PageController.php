@@ -40,4 +40,8 @@ class PageController extends Controller
     {
         return view('site.pages.terms-of-use');
     }
+    public function newsletter(): View
+    {
+        return view('site.pages.newsletter');
+    }
 }
