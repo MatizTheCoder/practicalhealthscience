@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasUniqueSlug;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class Article extends Model
@@ -88,6 +88,33 @@ class Article extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::saving(function (Article $article) {
+            $article->reading_time = $article->calculateReadingTime();
+
+            if ($article->status === self::STATUS_PUBLISHED && ! $article->published_at) {
+                $article->published_at = now();
+            }
+
+            if (! $article->seo_title) {
+                $article->seo_title = Str::limit($article->title, 60, '');
+            }
+
+            if (! $article->meta_description && $article->excerpt) {
+                $article->meta_description = Str::limit(strip_tags($article->excerpt), 160, '');
+            }
+
+            if (! $article->og_title) {
+                $article->og_title = $article->seo_title ?: $article->title;
+            }
+
+            if (! $article->og_description && $article->meta_description) {
+                $article->og_description = $article->meta_description;
+            }
+        });
+    }
+
     public function getSlugSource(): string
     {
         return $this->title;
@@ -140,32 +167,6 @@ class Article extends Model
             ->withTimestamps();
     }
 
-    protected static function booted(): void
-    {
-        static::saving(function (Article $article) {
-            $article->reading_time = $article->reading_time ?: $article->calculateReadingTime();
-
-            if ($article->status === self::STATUS_PUBLISHED && ! $article->published_at) {
-                $article->published_at = now();
-            }
-
-            if (! $article->seo_title) {
-                $article->seo_title = Str::limit($article->title, 60, '');
-            }
-
-            if (! $article->meta_description && $article->excerpt) {
-                $article->meta_description = Str::limit(strip_tags($article->excerpt), 160, '');
-            }
-
-            if (! $article->og_title) {
-                $article->og_title = $article->seo_title ?: $article->title;
-            }
-
-            if (! $article->og_description && $article->meta_description) {
-                $article->og_description = $article->meta_description;
-            }
-        });
-    }
     public function getPublishReadinessAttribute(): string
     {
         if (! $this->has_medical_disclaimer) {
@@ -184,31 +185,31 @@ class Article extends Model
             return 'Missing limitations';
         }
 
-        if (! $this->body) {
+        if ($this->isBlankContent($this->body)) {
             return 'Missing body';
         }
 
-        if (! $this->excerpt) {
+        if ($this->isBlankContent($this->excerpt)) {
             return 'Missing excerpt';
         }
 
-        if (! $this->quick_answer) {
+        if ($this->isBlankContent($this->quick_answer)) {
             return 'Missing quick answer';
         }
 
-        if (! $this->what_the_science_says) {
+        if ($this->isBlankContent($this->what_the_science_says)) {
             return 'Missing science summary';
         }
 
-        if (! $this->limitations_summary) {
+        if ($this->isBlankContent($this->limitations_summary)) {
             return 'Missing limitations text';
         }
 
-        if (! $this->real_life_meaning) {
+        if ($this->isBlankContent($this->real_life_meaning)) {
             return 'Missing real-life meaning';
         }
 
-        if (! $this->key_takeaway) {
+        if ($this->isBlankContent($this->key_takeaway)) {
             return 'Missing takeaway';
         }
 
@@ -234,12 +235,17 @@ class Article extends Model
         };
     }
 
+    public function getDisplayReadingTimeAttribute(): int
+    {
+        return $this->calculateReadingTime();
+    }
+
     public function calculateReadingTime(): int
     {
         $content = collect([
-            $this->body,
             $this->quick_answer,
             $this->what_the_science_says,
+            $this->body,
             $this->limitations_summary,
             $this->real_life_meaning,
             $this->key_takeaway,
@@ -247,9 +253,23 @@ class Article extends Model
             ->filter()
             ->implode(' ');
 
-        $wordCount = str_word_count(strip_tags($content));
+        $plainText = $this->plainText($content);
+
+        preg_match_all('/[\p{L}\p{N}]+/u', $plainText, $matches);
+
+        $wordCount = count($matches[0] ?? []);
 
         return max(1, (int) ceil($wordCount / 220));
+    }
+
+    protected function isBlankContent(?string $content): bool
+    {
+        return trim($this->plainText($content ?? '')) === '';
+    }
+
+    protected function plainText(string $content): string
+    {
+        return trim(html_entity_decode(strip_tags($content)));
     }
 
     public function scopePublished(Builder $query): Builder

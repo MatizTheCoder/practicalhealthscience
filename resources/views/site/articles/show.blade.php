@@ -79,7 +79,7 @@
                     <span>{{ $article->published_at->format('M j, Y') }}</span>
                 @endif
 
-                <span>{{ $article->reading_time ?? 1 }} min read</span>
+                <span>{{ $article->display_reading_time }} min read</span>
 
                 @if ($article->last_reviewed_at)
                     <span>Last reviewed {{ $article->last_reviewed_at->format('M j, Y') }}</span>

@@ -223,15 +223,16 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('pages.editorial-policy') }}" class="hover:text-[#3A8F8A]">
-                                    Editorial Policy
-                                </a>
-                            </li>
-                             <li>
                                 <a href="{{ route('pages.editorial-team') }}" class="hover:text-[#3A8F8A]">
                                     Editorial Team
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('pages.editorial-policy') }}" class="hover:text-[#3A8F8A]">
+                                    Editorial Policy
+                                </a>
+                            </li>
+                             
                             <li>
                                 <a href="{{ route('pages.medical-disclaimer') }}" class="hover:text-[#3A8F8A]">
                                     Medical Disclaimer

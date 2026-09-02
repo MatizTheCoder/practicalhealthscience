@@ -30,7 +30,7 @@
         @if ($articles->isNotEmpty())
             <div class="grid gap-6 md:grid-cols-3">
                 @foreach ($articles as $article)
-                    <x-site.article-card :article="$article" :showTakeaway="true" />
+                    <x-site.article-card :article="$article" />
                 @endforeach
             </div>
 

@@ -39,7 +39,7 @@
             <span>{{ $article->author->name }}</span>
         @endif
 
-        <span>{{ $article->reading_time ?? 1 }} min read</span>
+        <span>{{ $article->display_reading_time }} min read</span>
 
         @if ($article->published_at)
             <span>{{ $article->published_at->format('M j, Y') }}</span>
