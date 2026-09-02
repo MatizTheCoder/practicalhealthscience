@@ -1,6 +1,8 @@
 @extends('layouts.site', [
 'title' => $tag->name . ' | Practical Health Science',
 'description' => $tag->description ?: 'Evidence-based Practical Health Science articles about ' . $tag->name . '.',
+'robots' => 'noindex, follow',
+'canonical' => route('tags.index'),
 ])
 
 @section('content')

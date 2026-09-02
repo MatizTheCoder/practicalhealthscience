@@ -66,12 +66,12 @@
                         Categories
                     </a>
 
-                    <a
+                    <!-- <a
                         href="{{ route('tags.index') }}"
                         class="{{ request()->routeIs('tags.*') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
                     >
                         Topics
-                    </a>
+                    </a> -->
 
                     <a
                         href="{{ route('search') }}"
@@ -118,12 +118,12 @@
                     Categories
                 </a>
 
-                <a
+                <!-- <a
                     href="{{ route('tags.index') }}"
                     class="shrink-0 {{ request()->routeIs('tags.*') ? 'text-[#3A8F8A]' : 'hover:text-[#3A8F8A]' }}"
                 >
                     Topics
-                </a>
+                </a> -->
 
                 <a
                     href="{{ route('search') }}"
@@ -181,11 +181,11 @@
                                     Categories
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="{{ route('tags.index') }}" class="hover:text-[#3A8F8A]">
                                     Topics
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="{{ route('search') }}" class="hover:text-[#3A8F8A]">
                                     Search

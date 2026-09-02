@@ -19,14 +19,14 @@
     </url>
 @endforeach
 
-@foreach ($tags as $tag)
+<!-- @foreach ($tags as $tag)
     <url>
         <loc>{{ route('tags.show', $tag) }}</loc>
         <lastmod>{{ $tag->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
     </url>
-@endforeach
+@endforeach -->
 
 @foreach ($articles as $article)
     <url>

@@ -1,6 +1,8 @@
 @extends('layouts.site', [
     'title' => 'Health Science Topics | Practical Health Science',
-    'description' => 'Browse Practical Health Science topics including exercise, metabolism, inflammation, nutrition, supplements, longevity, disease mechanisms, and biomedical research.',
+    'description' => 'Browse Practical Health Science topics including exercise, metabolism, inflammation, nutrition, supplements, longevity, disease mechanisms,
+    'robots' => 'noindex, follow',
+    'canonical' => route('tags.index'), and biomedical research.',
 ])
 
 @section('content')

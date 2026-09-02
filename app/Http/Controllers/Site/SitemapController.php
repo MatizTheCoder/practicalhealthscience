@@ -31,12 +31,12 @@ class SitemapController extends Controller
                 'changefreq' => 'weekly',
                 'priority' => '0.8',
             ],
-            [
-                'loc' => route('tags.index'),
-                'lastmod' => now(),
-                'changefreq' => 'weekly',
-                'priority' => '0.7',
-            ],
+            // [
+            //     'loc' => route('tags.index'),
+            //     'lastmod' => now(),
+            //     'changefreq' => 'weekly',
+            //     'priority' => '0.7',
+            // ],
             [
                 'loc' => route('search'),
                 'lastmod' => now(),
@@ -98,10 +98,10 @@ class SitemapController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        $tags = Tag::query()
-            ->whereHas('articles', fn($query) => $query->published())
-            ->orderBy('name')
-            ->get();
+        // $tags = Tag::query()
+        //     ->whereHas('articles', fn($query) => $query->published())
+        //     ->orderBy('name')
+        //     ->get();
 
         $articles = Article::query()
             ->published()
@@ -113,7 +113,7 @@ class SitemapController extends Controller
             ->view('site.sitemap', [
                 'staticUrls' => $staticUrls,
                 'categories' => $categories,
-                'tags' => $tags,
+                // 'tags' => $tags,
                 'articles' => $articles,
             ])
             ->header('Content-Type', 'application/xml');
