@@ -19,6 +19,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\DashboardStats;
+use Illuminate\Support\HtmlString;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,6 +31,14 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Practical Health Science')
+            ->brandLogo(fn () => new HtmlString('
+                <img
+                    src="' . asset('images/logo_horizontal.png') . '"
+                    alt="Practical Health Science"
+                    style="height:40px; width: auto;"
+                >
+            '))
+            ->favicon(asset('images/favicon.png'))
 
             ->colors([
                 'primary' => [
