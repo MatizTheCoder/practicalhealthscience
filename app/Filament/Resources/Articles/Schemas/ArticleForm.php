@@ -155,11 +155,23 @@ class ArticleForm
                                             ->preload(),
 
                                         Select::make('sources')
-                                            ->relationship('sources', 'title')
+                                            ->relationship(
+                                                name: 'sources',
+                                                titleAttribute: 'title',
+                                                modifyQueryUsing: function ($query, $record) {
+                                                    return $query
+                                                        ->whereDoesntHave('articles')
+                                                        ->when($record, function ($query) use ($record) {
+                                                            $query->orWhereHas('articles', function ($query) use ($record) {
+                                                                $query->whereKey($record->id);
+                                                            });
+                                                        });
+                                                }
+                                            )
                                             ->multiple()
                                             ->searchable()
                                             ->preload()
-                                            ->helperText('Attach scientific or authoritative sources used in this article.'),
+                                            ->helperText('Only unused sources are shown, plus sources already attached to this article.'),
 
                                         Select::make('relatedArticles')
                                             ->label('Related Articles')

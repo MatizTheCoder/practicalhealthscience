@@ -14,21 +14,25 @@ class TagForm
         return $schema
             ->components([
                 Section::make('Tag details')
-                    ->description('Small topic labels such as insulin resistance, creatine, inflammation, mitochondria, fasting, or GLP-1.')
-                    ->schema([
-                        TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
+    ->schema([
+        TextInput::make('name')
+            ->label('Name')
+            ->required()
+            ->maxLength(255)
+            ->unique(ignoreRecord: true)
+            ->helperText('Tag names must be unique. Reuse an existing tag instead of creating duplicates.'),
 
-                        TextInput::make('slug')
-                            ->maxLength(255)
-                            ->helperText('Leave empty to generate automatically from the tag name.'),
+        TextInput::make('slug')
+            ->label('Slug')
+            ->maxLength(255)
+            ->unique(ignoreRecord: true)
+            ->helperText('Leave empty to generate automatically, or use a unique slug.'),
 
-                        Textarea::make('description')
-                            ->rows(4)
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(2),
-            ]);
+        Textarea::make('description')
+            ->label('Description')
+            ->rows(4)
+            ->columnSpanFull(),
+    ])
+    ->columns(2),]);
     }
 }
