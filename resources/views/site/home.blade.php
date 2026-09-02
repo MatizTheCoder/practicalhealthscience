@@ -12,7 +12,7 @@
             </div>
 
             <h1 class="mt-6 max-w-4xl text-4xl font-extrabold tracking-tight text-[#102033] md:text-6xl">
-                Evidence-based health science, made practical.
+                Evidence based health science, made practical.
             </h1>
 
             <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
