@@ -31,34 +31,38 @@
         </div>
 
         <div class="rounded-[2rem] border border-[#D3EDE7] bg-white p-6 shadow-sm">
-            <div class="rounded-[1.5rem] bg-[#EAF7F3] p-6">
-                <div class="text-sm font-semibold uppercase tracking-wide text-[#3A8F8A]">
-                    Editorial promise
-                </div>
-
-                <ul class="mt-5 space-y-4 text-sm leading-6 text-slate-700">
-                    <li>
-                        <strong class="text-[#102033]">1. What does the science say?</strong><br>
-                        Clear explanation of the evidence.
-                    </li>
-
-                    <li>
-                        <strong class="text-[#102033]">2. How strong is the evidence?</strong><br>
-                        Careful distinction between strong, limited, early, and mixed findings.
-                    </li>
-
-                    <li>
-                        <strong class="text-[#102033]">3. What are the limitations?</strong><br>
-                        No hype, no miracle claims, no false certainty.
-                    </li>
-
-                    <li>
-                        <strong class="text-[#102033]">4. What should a reasonable reader take away?</strong><br>
-                        Practical meaning in real life.
-                    </li>
-                </ul>
-            </div>
+    <div class="rounded-[1.5rem] bg-[#EAF7F3] p-6">
+        <div class="text-sm font-semibold uppercase tracking-wide text-[#3A8F8A]">
+            Our Evidence Standard
         </div>
+
+        <ul class="mt-5 space-y-4 text-sm leading-6 text-slate-700">
+            <li>
+                <strong class="text-[#102033]">1. What does the evidence show?</strong><br>
+                We start with the available scientific literature, not trends, hype, or fear-based claims.
+            </li>
+
+            <li>
+                <strong class="text-[#102033]">2. How strong is the evidence?</strong><br>
+                We distinguish between strong, moderate, limited, early, mixed, and uncertain findings.
+            </li>
+
+            <li>
+                <strong class="text-[#102033]">3. What are the limitations?</strong><br>
+                We include uncertainty, study limitations, evidence gaps, and areas where conclusions should remain cautious.
+            </li>
+
+            <li>
+                <strong class="text-[#102033]">4. What does this mean in real life?</strong><br>
+                We translate research into practical understanding without replacing professional medical advice.
+            </li>
+        </ul>
+
+        <a href="{{ route('pages.editorial-policy') }}" class="mt-6 inline-flex text-sm font-semibold text-[#3A8F8A] hover:text-[#102033]">
+            Read our editorial policy →
+        </a>
+    </div>
+</div>
     </div>
 </section>
 
