@@ -109,7 +109,7 @@
             <img
                 src="{{ asset('storage/' . $article->featured_image_path) }}"
                 alt="{{ $article->featured_image_alt ?: $article->title }}"
-                class="aspect-[16/9] w-full rounded-[2rem] object-cover shadow-sm ring-1 ring-slate-200">
+                class="aspect-[3/2] w-full rounded-[2rem] bg-[#F7FBFA] object-contain shadow-sm ring-1 ring-slate-200">
         </div>
     @endif
 

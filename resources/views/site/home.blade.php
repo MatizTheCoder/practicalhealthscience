@@ -86,7 +86,7 @@
             <img
                 src="{{ asset('storage/' . $featuredArticle->featured_image_path) }}"
                 alt="{{ $featuredArticle->featured_image_alt ?: $featuredArticle->title }}"
-                class="h-full w-full rounded-[1.5rem] object-cover">
+                class="h-full w-full rounded-[1.5rem] object-contain">
             @else
             <div class="text-center">
                 <div class="text-sm font-semibold uppercase tracking-wide text-[#3A8F8A]">
